@@ -1,0 +1,1 @@
+python3 /Users/greggh/Documents/GitHub/MyCollectionList/UI.py

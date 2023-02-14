@@ -11,24 +11,24 @@ def help():
     print("+----------------+----------------------------------------+")
     print("| Command        | Description                            |")
     print("+----------------+----------------------------------------+")
-    print("| help           | Alternatives: \"commands\" or \"?\".   |")
+    print("| help           | Alternatives: \"commands\" or \"?\".       |")
     print("|                | Displays the list of commands.         |")
     print("+----------------+----------------------------------------+")
-    print("| login          | Alternatives: \"li\". Logs the user in |")
+    print("| login          | Alternatives: \"li\". Logs the user in   |")
     print("|                | using their username and password.     |")
     print("|                | If a different user is already logged  |")
     print("|                | in, then they are automatically logged |")
     print("|                | out.                                   |")
     print("+----------------+----------------------------------------+")
-    print("| logout         | Alternatives: \"lo\". Logs the current |")
+    print("| logout         | Alternatives: \"lo\". Logs the current   |")
     print("|                | user out, allowing a different user to |")
     print("|                | log in.                                |")
     print("+----------------+----------------------------------------+")
-    print("| register       | Alternatives: \"r\". Creates a new     |")
+    print("| register       | Alternatives: \"r\". Creates a new       |")
     print("|                | account that can then be logged in to. |")
     print("|                | Asks for a username and password.      |")
     print("+----------------+----------------------------------------+")
-    print("| quit           | Alternatives: \"exit\". Exits the      |")
+    print("| quit           | Alternatives: \"exit\". Exits the        |")
     print("|                | program.                               |")
     print("+----------------+----------------------------------------+")
 
@@ -47,7 +47,7 @@ def commands():
     # Just a little space between the above text and the program that will appear below it
     print("\n")
     # Intro text
-    print("Welcome to MyCollectionList! Please type \"tutorial\" or \"t\" to recieve instructions on how to use this program!")
+    print("Welcome to MyCollectionList! Please type \"help\" or \"?\" to recieve instructions on how to use this program!")
     print("To exit the program, type either \"exit\" or \"quit\".\n")
 
     # Start of the actual program

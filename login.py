@@ -3,46 +3,89 @@
     login.py
 """
 
-from tkinter import *
+import time
 
+# Logs in a user whose account info already exists in the accounts folder
 def login():
+    print("Please enter your username and password below.")
     # Check if the specified username and password match an existing account
-    def submit():
-        login_username = username_text.get("1.0", END)[:-1]
-        login_password = password_text.get("1.0", END)[:-1]
+    login_username = input("Username: ")
+    login_password = input("Password: ")
 
-        account_string = login_username + ", " + login_password
+    account_string = login_username + ", " + login_password
 
-        # If there is an account with this username and password, login
-        try:
-            file = open("./accounts/" + login_username, "r")
-            if (file.readline() == account_string):
-                login_file = open("./current_user.txt", "w")
-                login_file.write(login_username + ", " + login_password)
-                information_label.config(text = "You are now logged in! You may now close out of this window.")
-            else:
-                information_label.config(text = "Wrong password. Please try again.")
+    # If there is an account with this username and password, login
+    try:
+        # Attempt to open a file with the imputted username to see if that file exists, and if that file contains the correct username and password
+        file = open("./accounts/" + login_username + ".txt", "r")
+        if (file.readline() == account_string):
+            login_file = open("./current_user.txt", "w")
+            login_file.write(login_username + ", " + login_password)
             
-            file.close()
-        except:
-            information_label.config(text = "No account with that username exists. Please try again.")
+            print("You are now logged in! Welcome, " + login_username + "!")
+        else:
+            print("Wrong password. Please try again.")
+        
+        file.close()
+    except:
+        print("No account with that username exists. Please try again.")
 
-    #Create the window
-    login_window = Tk()
+# Logs out the user
+def logout():
+    file = open("current_user.txt", "r+")
+    current_user = file.readline().split(", ")[0]
+    file.truncate(0)
+    print("User " + current_user + " has been logged out.")
+    file.close()
 
-    login_window.title("Login")
-    login_window.geometry("600x450+10+20")
+# Returns true if there is already a user with the username "login_username"
+def user_already_exists(login_username):
+    try:
+        # If we can open the file in read mode, then it must exist!
+        file = open("./accounts/" + login_username + ".txt", "r")
+        file.close()
+        return True
+    except:
+        return False
 
-    username_label = Label(login_window, text = "Username:")
-    username_text = Text(login_window, height = 5, width = 60)
-    password_label = Label(login_window, text = "Password:")
-    password_text = Text(login_window, height = 5, width = 60)
-    submit_button = Button(login_window, text="Login", fg="red", command=submit)
-    information_label = Label(login_window, text = "Please enter your username and password below.")
-    
-    submit_button.pack(side = "bottom")
-    password_text.pack(side = "bottom")
-    password_label.pack(side = "bottom")
-    username_text.pack(side = "bottom")
-    username_label.pack(side = "bottom")
-    information_label.pack(side = "bottom")
+# Have the user input their account info, then stick that info into a file for safekeeping
+def register():
+    print("Please enter the username and password below for your new account.")
+    # Put the input into a file in ./accounts
+    new_username = input("Username: ")
+    new_password = input("Password: ")
+    #confirm_password = input("Confirm Password: ")
+
+    if (user_already_exists(new_username) == False):
+        file = open("./accounts/" + new_username + ".txt", "w")
+                
+        file.write(new_username + ", " + new_password) # Write the rng to input.txt
+        file.close()
+
+        print("Account created successfully. You may now log in with this account.")
+    else:
+        print("An account with that username already exists. Please choose a different username.")
+
+def mainloop():
+    # Checks for data requests every second
+    running = True
+    while (running == True):
+        time.sleep(1)
+        # Check the contents of login_input.txt
+        file = open("./login_input.txt", "r+")
+        file_input = file.readline()
+        if (file_input == "login"):
+            login()
+            file.truncate(0) # This line clears the contents of login_input.txt so that the program will only run login() once for each request
+        elif (file_input == "logout"):
+            logout()
+            file.truncate(0)
+        elif (file_input == "register"):
+            register()
+            file.truncate(0)
+        elif (file_input == "exit"):
+            running = False
+            file.truncate(0)
+        file.close()
+
+mainloop()
